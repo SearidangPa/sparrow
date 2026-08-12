@@ -1,7 +1,7 @@
 local M = {}
 
 local HIGHLIGHT_NS = vim.api.nvim_create_namespace 'sparrow_range_action'
-local beaver = require 'beaver'
+local find_enclosing_func = require 'lib.find_enclosing_func'
 
 ---@return { bufnr: number, name: string, start_row: number, end_row: number }?
 local function get_nearest_function()
@@ -9,7 +9,7 @@ local function get_nearest_function()
   local cursor_pos = vim.api.nvim_win_get_cursor(0)
   local row0 = cursor_pos[1] - 1
 
-  local ctx = beaver.enclosing_function(bufnr, row0)
+  local ctx = find_enclosing_func.enclosing_function(bufnr, row0)
   if not ctx then
     vim.schedule(
       function()
